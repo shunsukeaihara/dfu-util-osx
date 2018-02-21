@@ -125,7 +125,7 @@ void dfu_load_file(struct dfu_file *file, enum suffix_req check_suffix)
     if (lseek(f, 0, SEEK_SET) != 0)
            err(EX_IOERR, "Could not seek to beginning");
         
-    file->size.total = offset;
+    file->size.total = (int)offset;
     file->firmware = dfu_malloc(file->size.total);
         
     if (read(f, file->firmware, file->size.total) != file->size.total)

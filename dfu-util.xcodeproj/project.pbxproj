@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2CF272203DAC3C00EB4E1B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2CF271203DAC3C00EB4E1B /* IOKit.framework */; };
+		0C2CF278203DADED00EB4E1B /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2CF277203DADED00EB4E1B /* libusb-1.0.a */; };
+		0C2CF279203DAE5E00EB4E1B /* libusb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2CF273203DADA200EB4E1B /* libusb.a */; };
 		D4F1E6D51A22040F00C7F394 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D4F1E6D41A22040F00C7F394 /* main.c */; };
 		D4F1E6DF1A2204A100C7F394 /* dfu.c in Sources */ = {isa = PBXBuildFile; fileRef = D4F1E6DB1A2204A100C7F394 /* dfu.c */; };
 		D4F1E6E01A2204A100C7F394 /* usb_device.c in Sources */ = {isa = PBXBuildFile; fileRef = D4F1E6DD1A2204A100C7F394 /* usb_device.c */; };
@@ -26,6 +29,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C2CF271203DAC3C00EB4E1B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		0C2CF273203DADA200EB4E1B /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "../../../../usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<group>"; };
+		0C2CF275203DADD500EB4E1B /* 1.0.21 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = 1.0.21; path = ../../../../usr/local/Cellar/libusb/1.0.21; sourceTree = "<group>"; };
+		0C2CF277203DADED00EB4E1B /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libusb-1.0.a"; path = "../../../../usr/local/Cellar/libusb/1.0.21/lib/libusb-1.0.a"; sourceTree = "<group>"; };
 		D4F1E6D11A22040F00C7F394 /* dfu-util */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dfu-util"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F1E6D41A22040F00C7F394 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D4F1E6DB1A2204A100C7F394 /* dfu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dfu.c; sourceTree = "<group>"; };
@@ -41,17 +48,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C2CF279203DAE5E00EB4E1B /* libusb.a in Frameworks */,
+				0C2CF278203DADED00EB4E1B /* libusb-1.0.a in Frameworks */,
+				0C2CF272203DAC3C00EB4E1B /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C2CF270203DAC3C00EB4E1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C2CF277203DADED00EB4E1B /* libusb-1.0.a */,
+				0C2CF275203DADD500EB4E1B /* 1.0.21 */,
+				0C2CF273203DADA200EB4E1B /* libusb.a */,
+				0C2CF271203DAC3C00EB4E1B /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D4F1E6C81A22040F00C7F394 = {
 			isa = PBXGroup;
 			children = (
 				D4F1E6D31A22040F00C7F394 /* dfu-util */,
 				D4F1E6D21A22040F00C7F394 /* Products */,
+				0C2CF270203DAC3C00EB4E1B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,7 +125,7 @@
 		D4F1E6C91A22040F00C7F394 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0920;
 				TargetAttributes = {
 					D4F1E6D01A22040F00C7F394 = {
 						CreatedOnToolsVersion = 6.1;
@@ -150,19 +172,29 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -190,13 +222,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -204,6 +244,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -219,18 +260,32 @@
 		D4F1E6D91A22040F00C7F394 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"HEADER_SEARCH_PATHS[arch=x86_64]" = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+					/usr/local/Cellar/libusb/1.0.21/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		D4F1E6DA1A22040F00C7F394 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"HEADER_SEARCH_PATHS[arch=x86_64]" = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+					/usr/local/Cellar/libusb/1.0.21/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -253,6 +308,7 @@
 				D4F1E6DA1A22040F00C7F394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

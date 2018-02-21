@@ -21,6 +21,7 @@
 #include <IOKit/usb/IOUSBLib.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "usb_device.h"
 #include "dfu.h"
@@ -30,8 +31,12 @@ struct dfu_file firmware;
 
 IOUSBDeviceInterface300** prepareDFU(unsigned short idVendor, unsigned short idProduct)
 {
-    IOUSBDeviceInterface300** device = getDevice(idVendor, idProduct);
+    IOUSBDeviceInterface300** device;
+    int flag = 0;
     
+start:
+    
+    device = getDevice(idVendor, idProduct);
     if (device == NULL)
     {
         fprintf(stderr, "[!] Failed to retrieve USB device [%04x:%04x].\n", idVendor, idProduct);
@@ -121,16 +126,22 @@ IOUSBDeviceInterface300** prepareDFU(unsigned short idVendor, unsigned short idP
                     goto error;
                 
                 if (!(descriptor->bmAttributes & USB_DFU_WILL_DETACH))
-                    if ((*device)->ResetDevice(device) != kIOReturnSuccess)
+                    if((*device)->USBDeviceReEnumerate(device, 0)!= kIOReturnSuccess)
                         return NULL;
                 
                 if (dfu_get_status(interface, intfIndex, &status) != kIOReturnSuccess)
-                    goto error;
+                        goto error;
                 
                 if (status.bState != STATE_DFU_IDLE)
                 {
-                    fprintf(stderr, "[!] Device is not in dfu mode (state %s).\n", dfu_state_to_string(status.bState));
-                    goto error;
+                    if (flag == 0){
+                        flag = 1;
+                        goto restart;
+                    }else {
+                        fprintf(stderr, "[!] Device is not in dfu mode (state %s).\n",
+                                dfu_state_to_string(status.bState));
+                        goto error;
+                    }
                 }
                 
                 if ((*interface)->USBInterfaceClose(interface) != kIOReturnSuccess)
@@ -157,6 +168,13 @@ IOUSBDeviceInterface300** prepareDFU(unsigned short idVendor, unsigned short idP
     error:
         (*interface)->USBInterfaceClose(interface);
         (*interface)->Release(interface);
+    restart:
+        (*interface)->USBInterfaceClose(interface);
+        (*interface)->Release(interface);
+        (*device)->USBDeviceClose(device);
+        (*device)->Release(device);
+        sleep(10);
+        goto start;
     }
     else
         fprintf(stderr, "[!] Failed to locate DFU interface.\n");
