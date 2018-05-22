@@ -215,6 +215,7 @@ bool uploadFirmware(IOUSBDeviceInterface300** device)
                     int size = descriptor->wTransferSize < remaining ? descriptor->wTransferSize : remaining;
                     
                     printf("[i] Downloading firmware: Chunk %d (%d bytes) - %d / %d bytes.\n", transaction, size, sent, firmware_size);
+                    fflush(stdout);
                     
                     if (dfu_download(interface,
                                      intfIndex,
