@@ -264,8 +264,7 @@ bool uploadFirmware(IOUSBDeviceInterface300** device)
                 else
                 {
                     printf("[i] Firmware upload complete, resetting device.\n");
-                    
-                    (*device)->ResetDevice(device);
+                    (*device)->USBDeviceReEnumerate(device, 0);
                     (*interface)->USBInterfaceClose(interface);
                     (*interface)->Release(interface);
                     
