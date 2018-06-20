@@ -104,6 +104,7 @@ IOReturn dfu_get_status(IOUSBInterfaceInterface300** interface, const unsigned c
 IOReturn dfu_clear_status(IOUSBInterfaceInterface300** interface, const unsigned char index);
 IOReturn dfu_get_state(IOUSBInterfaceInterface300** interface, const unsigned char index);
 IOReturn dfu_abort(IOUSBInterfaceInterface300** interface, const unsigned char index);
+IOReturn cold_reset(IOUSBInterfaceInterface300** interface, const unsigned char index);
 
 const char* dfu_state_to_string(int state);
 const char* dfu_status_to_string(int status);

@@ -44,7 +44,6 @@ start:
     }
     
     printDeviceInfo(device);
-    
     if ((*device)->USBDeviceOpen(device) != kIOReturnSuccess)
         return NULL;
     
@@ -264,12 +263,12 @@ bool uploadFirmware(IOUSBDeviceInterface300** device)
                 else
                 {
                     printf("[i] Firmware upload complete, resetting device.\n");
+                    (*device)->ResetDevice(device);
                     (*device)->USBDeviceReEnumerate(device, 0);
                     (*interface)->USBInterfaceClose(interface);
                     (*interface)->Release(interface);
-                    
                     (*device)->USBDeviceClose(device);
-                    
+                    (*device)->Release(device);
                     return true;
                 }
 
@@ -301,7 +300,7 @@ int main(int argc, const char * argv[])
         printf("Usage: dfu-util <vendorId hex> <productId hex> <firmware.dfu>\n");
         return -1;
     }
-    
+    IOUSBDeviceInterface300** device = NULL;
     // Parse device vendor & product
     unsigned short idVendor = strtoul(argv[1], NULL, 16);
     unsigned short idProduct = strtoul(argv[2], NULL, 16);
@@ -313,7 +312,7 @@ int main(int argc, const char * argv[])
     
     show_suffix_and_prefix(&firmware);
   
-    IOUSBDeviceInterface300** device = NULL;
+    
     
     if ((device = prepareDFU(idVendor, idProduct)) != NULL)
         uploadFirmware(device);
@@ -322,5 +321,35 @@ int main(int argc, const char * argv[])
 
     free(firmware.firmware);
     
+    
+//    sleep(10);
+//
+//    device = getDevice(idVendor, idProduct);
+//    if (device == NULL)
+//    {
+//        fprintf(stderr, "[!] Failed to retrieve USB device [%04x:%04x].\n", idVendor, idProduct);
+//        return -1;
+//    }
+//
+//    printDeviceInfo(device);
+//    if ((*device)->USBDeviceOpen(device) != kIOReturnSuccess)
+//        return -1;
+//
+//    setConfiguration(device);
+//
+//    IOUSBInterfaceInterface300** interface = getDFUInterface(device);
+//    if (interface == NULL)return -1;
+//    IOUSBDFUDescriptor* descriptor = getDFUDescriptor(interface);
+//    if(descriptor==NULL)return -1;
+//    (*interface)->USBInterfaceOpen(interface);
+//    unsigned char intfIndex;
+//    (*interface)->GetInterfaceNumber(interface, &intfIndex);
+//    cold_reset(interface, 0);
+//    (*interface)->USBInterfaceClose(interface);
+//    (*interface)->Release(interface);
+//    (*device)->USBDeviceClose(device);
+//    (*device)->Release(device);
+    
+     
     return 0;
 }

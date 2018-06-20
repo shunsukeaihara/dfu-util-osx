@@ -65,6 +65,7 @@ IOReturn dfu_detach(IOUSBInterfaceInterface300** interface,
                     const unsigned char index,
                     const unsigned short timeout)
 {
+    
     IOReturn result = control_transfer(interface,
                                        /* bmRequestType */ USBmakebmRequestType(kUSBOut, kUSBClass, kUSBInterface),
                                        /* bRequest      */ DFU_DETACH,
@@ -266,6 +267,56 @@ IOReturn dfu_abort(IOUSBInterfaceInterface300** interface, const unsigned char i
     
     return result;
 }
+
+
+IOReturn cold_reset(IOUSBInterfaceInterface300** interface,
+                    const unsigned char index)
+{
+    unsigned char cp[254], rp[254];
+    uint16_t command = 0x0002;
+    uint16_t reset = 0x4001;
+    uint16_t length = 0;
+    uint16_t size = (length < 8) ? 9 : ((length + 1) / 2) + 5;
+    uint16_t seqnum = 0;
+    unsigned char cmd[10];
+    cmd[0] = command & 0xff;
+    cmd[1] = command >> 8;
+    cmd[2] = size & 0xff;
+    cmd[3] = size >> 8;
+    cmd[4] = seqnum & 0xff;
+    cmd[5] = seqnum >> 8;
+    cmd[6] = reset & 0xff;
+    cmd[7] = reset >> 8;
+    cmd[8] = 0x00;
+    cmd[9] = 0x00;
+    memset(cp, 0, sizeof(cp));
+    cp[0] = 0x00;
+    cp[1] = 0xfc;
+    cp[2] = (size * 2) + 1;
+    cp[3] = 0xc2;
+    memcpy(cp + 4, cmd, sizeof(cmd));
+    memcpy(cp + 14, NULL, length);
+    uint32_t rpsize = sizeof(rp);
+    IOReturn result = (*interface)->ReadPipe(interface,
+                                               //0x80|0x01,
+                                               0,
+                                               rp, &rpsize);
+    if (result != kIOReturnSuccess)
+        fprintf(stderr, "[!] Failed read inturrupt: 0x%08x.\n", result);
+    result = control_transfer(interface,
+                                       /* bmRequestType */ USBmakebmRequestType(kUSBOut, kUSBClass, kUSBInterface),
+                                       /* bRequest      */ 0,
+                                       /* wValu         */ 0,
+                                       /* wIndex        */ index,
+                                       /* Data          */ cp,
+                                       /* wLength       */ size * 2 + 4);
+    fprintf(stderr, "[!] cold reset: 0x%08x.\n", result);
+    if (result != kIOReturnSuccess)
+        fprintf(stderr, "[!] Failed cold reset: 0x%08x.\n", result);
+    
+    return result;
+}
+
 
 const char* dfu_state_to_string(int state)
 {
